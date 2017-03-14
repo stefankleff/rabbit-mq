@@ -1,0 +1,32 @@
+{
+  "name": "spryker/rabbit-mq",
+  "description": "Spryker RabbitMq adapter",
+  "type": "library",
+  "license": "proprietary",
+  "keywords": ["framework", "rabbit-mq", "queue", "standards"],
+  "homepage": "http://spryker.com",
+  "authors": [
+    {
+      "name": "Spryker",
+      "homepage": "http://spryker.com"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/spryker/rabbit-mq"
+  },
+  "require": {
+    "php": ">=5.4.16",
+    "php-amqplib/php-amqplib": "^2.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "RabbitMq\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "RabbitMq\\Test\\": "tests"
+    }
+  },
+  "include-path":  ["src/"]
+}
