@@ -2,8 +2,9 @@
 
 namespace Spryker\Client\RabbitMq\Model\Consumer;
 
-use Generated\Shared\Transfer\QueueMessageTransfer;
-use Generated\Shared\Transfer\QueueOptionTransfer;
+use Generated\Shared\Transfer\QueueReceiveMessageTransfer;
+use Generated\Shared\Transfer\QueueSendMessageTransfer;
+use Generated\Shared\Transfer\RabbitMqConsumerOptionTransfer;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -39,20 +40,24 @@ class Consumer implements ConsumerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\QueueOptionTransfer $queueOptionTransfer
+     * @param string $queueName
+     * @param int $chunkSize
+     * @param array|null $options
      *
-     * @return mixed
+     * @return QueueReceiveMessageTransfer[]
      */
-    public function receiveMessages(QueueOptionTransfer $queueOptionTransfer)
+    public function receiveMessages($queueName, $chunkSize = 100, array $options = null)
     {
-        $this->channel->basic_qos(null, $queueOptionTransfer->getChunkSize(), null);
+        /** @var RabbitMqConsumerOptionTransfer $rabbitMqOption */
+        $rabbitMqOption = $options['rabbitMqConsumerOption'];
+        $this->channel->basic_qos(null, $chunkSize, null);
         $this->channel->basic_consume(
-            $queueOptionTransfer->getQueueName(),
-            $queueOptionTransfer->getConsumerTag(),
-            $queueOptionTransfer->getNoLocal(),
-            $queueOptionTransfer->getNoAck(),
-            $queueOptionTransfer->getConsumerExclusive(),
-            $queueOptionTransfer->getNoWait(),
+            $queueName,
+            $rabbitMqOption->getConsumerTag(),
+            $rabbitMqOption->getNoLocal(),
+            $rabbitMqOption->getNoAck(),
+            $rabbitMqOption->getConsumerExclusive(),
+            $rabbitMqOption->getNoWait(),
             [$this, 'collectQueueMessages']
         );
 
@@ -69,19 +74,27 @@ class Consumer implements ConsumerInterface
     }
 
     /**
-     * @param QueueOptionTransfer $queueOptionTransfer
+     * @param string $queueName
+     * @param array|null $options
      *
-     * @return QueueMessageTransfer
+     * @return QueueReceiveMessageTransfer
      */
-    public function receiveMessage(QueueOptionTransfer $queueOptionTransfer)
+    public function receiveMessage($queueName, array $options = null)
     {
-        $message = $this->channel->basic_get($queueOptionTransfer->getQueueName(), $queueOptionTransfer->getNoAck());
-        $queueMessageTransfer = new QueueMessageTransfer();
-        $queueMessageTransfer->setBody($message->getBody());
-        $queueMessageTransfer->setQueueName($queueOptionTransfer->getQueueName());
-        $queueMessageTransfer->setDeliveryTag($message->delivery_info['delivery_tag']);
+        /** @var RabbitMqConsumerOptionTransfer $rabbitMqOption */
+        $rabbitMqOption = $options['rabbitMqConsumerOption'];
 
-        return $queueMessageTransfer;
+        $message = $this->channel->basic_get($queueName, $rabbitMqOption->getNoAck());
+
+        $queueSendMessageTransfer = new QueueSendMessageTransfer();
+        $queueSendMessageTransfer->setBody($message->getBody());
+
+        $queueReceiveMessageTransfer = new QueueReceiveMessageTransfer();
+        $queueReceiveMessageTransfer->setQueueMessage($queueSendMessageTransfer);
+        $queueReceiveMessageTransfer->setQueueName($queueName);
+        $queueReceiveMessageTransfer->setDeliveryTag($message->delivery_info['delivery_tag']);
+
+        return $queueReceiveMessageTransfer;
     }
 
     /**
@@ -91,31 +104,49 @@ class Consumer implements ConsumerInterface
      */
     public function collectQueueMessages(AMQPMessage $message)
     {
-        $queueMessageTransfer = new QueueMessageTransfer();
-        $queueMessageTransfer->setBody($message->getBody());
-        $queueMessageTransfer->setQueueName($message->delivery_info['exchange']);
-        $queueMessageTransfer->setDeliveryTag($message->delivery_info['delivery_tag']);
 
-        $this->collectedMessages[] = $queueMessageTransfer;
+        $queueSendMessageTransfer = new QueueSendMessageTransfer();
+        $queueSendMessageTransfer->setBody($message->getBody());
+
+        $queueReceiveMessageTransfer = new QueueReceiveMessageTransfer();
+        $queueReceiveMessageTransfer->setQueueMessage($queueSendMessageTransfer);
+        // @TODO check this of queue not exchange!!!
+        $queueReceiveMessageTransfer->setQueueName($message->delivery_info['exchange']);
+        $queueReceiveMessageTransfer->setDeliveryTag($message->delivery_info['delivery_tag']);
+
+        $this->collectedMessages[] = $queueReceiveMessageTransfer;
     }
 
     /**
-     * @param \Generated\Shared\Transfer\QueueMessageTransfer $queueMessageTransfer
-     *
-     * @return void
-     */
-    public function acknowledge(QueueMessageTransfer $queueMessageTransfer)
-    {
-        $this->channel->basic_ack($queueMessageTransfer->getDeliveryTag());
-    }
-
-    /**
-     * @param QueueMessageTransfer $queueMessageTransfer
+     * @param QueueReceiveMessageTransfer $queueReceiveMessageTransfer
      *
      * @return bool
      */
-    public function reject(QueueMessageTransfer $queueMessageTransfer)
+    public function acknowledge(QueueReceiveMessageTransfer $queueReceiveMessageTransfer)
     {
-        $this->channel->basic_reject($queueMessageTransfer->getDeliveryTag(), false);
+        return $this->channel->basic_ack($queueReceiveMessageTransfer->getDeliveryTag());
+    }
+
+    /**
+     * @param QueueReceiveMessageTransfer $queueReceiveMessageTransfer
+     *
+     * @return bool
+     */
+    public function reject(QueueReceiveMessageTransfer $queueReceiveMessageTransfer)
+    {
+        $this->channel->basic_reject($queueReceiveMessageTransfer->getDeliveryTag(), false);
+    }
+
+    /**
+     * @param QueueReceiveMessageTransfer $queueReceiveMessageTransfer
+     *
+     * @return bool
+     */
+    public function handleError(QueueReceiveMessageTransfer $queueReceiveMessageTransfer)
+    {
+        $message = new AMQPMessage($queueReceiveMessageTransfer->getQueueMessage()->getBody());
+        $this->channel->basic_publish($message, $queueReceiveMessageTransfer->getQueueName(), 'error');
+
+        return true;
     }
 }

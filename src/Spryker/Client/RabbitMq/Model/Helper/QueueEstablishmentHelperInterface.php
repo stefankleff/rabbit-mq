@@ -6,7 +6,7 @@
 
 namespace Spryker\Client\RabbitMq\Model\Helper;
 
-use Generated\Shared\Transfer\QueueOptionTransfer;
+use Generated\Shared\Transfer\RabbitMqOptionTransfer;
 use PhpAmqpLib\Channel\AMQPChannel;
 
 interface QueueEstablishmentHelperInterface
@@ -14,18 +14,18 @@ interface QueueEstablishmentHelperInterface
 
     /**
      * @param AMQPChannel $channel
-     * @param QueueOptionTransfer $queueOptionTransfer
+     * @param RabbitMqOptionTransfer $queueOptionTransfer
      *
-     * @return QueueOptionTransfer
+     * @return RabbitMqOptionTransfer
      */
-    public function createQueue(AMQPChannel $channel, QueueOptionTransfer $queueOptionTransfer);
+    public function createQueue(AMQPChannel $channel, RabbitMqOptionTransfer $queueOptionTransfer);
 
 
     /**
      * @param AMQPChannel $channel
-     * @param QueueOptionTransfer $queueOptionTransfer
+     * @param RabbitMqOptionTransfer $queueOptionTransfer
      *
-     * @return QueueOptionTransfer
+     * @return RabbitMqOptionTransfer
      */
-    public function createExchange(AMQPChannel $channel, QueueOptionTransfer $queueOptionTransfer);
+    public function createExchange(AMQPChannel $channel, RabbitMqOptionTransfer $queueOptionTransfer);
 }

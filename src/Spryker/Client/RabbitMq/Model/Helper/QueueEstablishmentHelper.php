@@ -6,7 +6,7 @@
 
 namespace Spryker\Client\RabbitMq\Model\Helper;
 
-use Generated\Shared\Transfer\QueueOptionTransfer;
+use Generated\Shared\Transfer\RabbitMqOptionTransfer;
 use PhpAmqpLib\Channel\AMQPChannel;
 
 class QueueEstablishmentHelper implements QueueEstablishmentHelperInterface
@@ -14,11 +14,11 @@ class QueueEstablishmentHelper implements QueueEstablishmentHelperInterface
 
     /**
      * @param AMQPChannel $channel
-     * @param QueueOptionTransfer $queueOptionTransfer
+     * @param RabbitMqOptionTransfer $queueOptionTransfer
      *
      * @return void
      */
-    public function createQueue(AMQPChannel $channel, QueueOptionTransfer $queueOptionTransfer)
+    public function createQueue(AMQPChannel $channel, RabbitMqOptionTransfer $queueOptionTransfer)
     {
         $queueParams = $this->convertTransferToArray($queueOptionTransfer);
 
@@ -34,11 +34,11 @@ class QueueEstablishmentHelper implements QueueEstablishmentHelperInterface
 
     /**
      * @param AMQPChannel $channel
-     * @param QueueOptionTransfer $queueOptionTransfer
+     * @param RabbitMqOptionTransfer $queueOptionTransfer
      *
      * @return void
      */
-    public function createExchange(AMQPChannel $channel, QueueOptionTransfer $queueOptionTransfer)
+    public function createExchange(AMQPChannel $channel, RabbitMqOptionTransfer $queueOptionTransfer)
     {
         $exchangeParams = $this->convertTransferToArray($queueOptionTransfer);
 
@@ -53,11 +53,11 @@ class QueueEstablishmentHelper implements QueueEstablishmentHelperInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\QueueOptionTransfer $queueOptionTransfer
+     * @param \Generated\Shared\Transfer\RabbitMqOptionTransfer $queueOptionTransfer
      *
      * @return array
      */
-    protected function convertTransferToArray(QueueOptionTransfer $queueOptionTransfer)
+    protected function convertTransferToArray(RabbitMqOptionTransfer $queueOptionTransfer)
     {
         return $queueOptionTransfer->toArray();
     }

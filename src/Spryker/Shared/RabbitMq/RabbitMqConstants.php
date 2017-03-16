@@ -11,6 +11,10 @@ use Spryker\Shared\Queue\QueueConstants;
 interface RabbitMqConstants extends QueueConstants
 {
 
-    const QUEUE_VIRTUAL_HOST = 'QUEUE_VIRTUAL_HOST';
+    const RABBITMQ_HOST = 'RABBITMQ_HOST';
+    const RABBITMQ_PORT = 'RABBITMQ_PORT';
+    const RABBITMQ_USERNAME = 'RABBITMQ_USERNAME';
+    const RABBITMQ_PASSWORD = 'RABBITMQ_PASSWORD';
+    const RABBITMQ_VIRTUAL_HOST = 'RABBITMQ_VIRTUAL_HOST';
 
 }

@@ -2,7 +2,7 @@
 
 namespace Spryker\Client\RabbitMq\Model\Publisher;
 
-use Generated\Shared\Transfer\QueueMessageTransfer;
+use Generated\Shared\Transfer\QueueSendMessageTransfer;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -25,20 +25,21 @@ class Publisher implements PublisherInterface
     }
 
     /**
-     * @param QueueMessageTransfer $messageTransfer
+     * @param string $queueName
+     * @param QueueSendMessageTransfer $queueSendMessageTransfer
      *
      * @return void
      */
-    public function sendMessage(QueueMessageTransfer $messageTransfer)
+    public function sendMessage($queueName, QueueSendMessageTransfer $queueSendMessageTransfer)
     {
-        $message = $this->createMessage($messageTransfer);
+        $message = $this->createMessage($queueSendMessageTransfer);
 
-        $this->publish($message, $messageTransfer->getQueueName(), $messageTransfer->getRoutingKey());
+        $this->publish($message, $queueName, $queueSendMessageTransfer->getRoutingKey());
     }
 
     /**
      * @param string $queueName
-     * @param \Generated\Shared\Transfer\QueueMessageTransfer[] $queueMessageTransfers
+     * @param \Generated\Shared\Transfer\QueueSendMessageTransfer[] $queueMessageTransfers
      *
      * @return void
      */
@@ -65,11 +66,11 @@ class Publisher implements PublisherInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\QueueMessageTransfer $messageTransfer
+     * @param \Generated\Shared\Transfer\QueueSendMessageTransfer $messageTransfer
      *
      * @return \PhpAmqpLib\Message\AMQPMessage
      */
-    protected function createMessage(QueueMessageTransfer $messageTransfer)
+    protected function createMessage(QueueSendMessageTransfer $messageTransfer)
     {
         return new AMQPMessage($messageTransfer->getBody(), $this->getMessageConfig());
     }

@@ -6,10 +6,8 @@
 
 namespace Spryker\Client\RabbitMq\Model\Manager;
 
-use Generated\Shared\Transfer\QueueMessageTransfer;
-use Generated\Shared\Transfer\QueueOptionTransfer;
+use Generated\Shared\Transfer\RabbitMqOptionTransfer;
 use PhpAmqpLib\Channel\AMQPChannel;
-use PhpAmqpLib\Message\AMQPMessage;
 use Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface;
 
 class Manager implements ManagerInterface
@@ -36,54 +34,37 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\QueueOptionTransfer $queueOptionTransfer
+     * @param string $queueName
+     * @param array|null $options
      *
-     * @return mixed
+     * @return array
      */
-    public function createQueue(QueueOptionTransfer $queueOptionTransfer)
+    public function createQueue($queueName, array $options = null)
     {
-        $this->queueEstablishmentHelper->createQueue($this->channel, $queueOptionTransfer);
-    }
+        /** @var RabbitMqOptionTransfer $rabbitMqOption */
+        $rabbitMqOption = $options['rabbitMqConsumerOption'];
 
-    /**
-     * @param \Generated\Shared\Transfer\QueueOptionTransfer $queueOptionTransfer
-     *
-     * @return mixed
-     */
-    public function createExchange(QueueOptionTransfer $queueOptionTransfer)
-    {
-        $this->queueEstablishmentHelper->createExchange($this->channel, $queueOptionTransfer);
-    }
-
-    /**
-     * @param QueueMessageTransfer $queueMessageTransfer
-     *
-     * @return QueueMessageTransfer
-     */
-    public function handleErrorMessage(QueueMessageTransfer $queueMessageTransfer)
-    {
-        $message = new AMQPMessage($queueMessageTransfer->getBody());
-        $this->channel->basic_publish($message, $queueMessageTransfer->getQueueName(), 'error');
-
-        return $queueMessageTransfer;
+        $this->queueEstablishmentHelper->createQueue($this->channel, $rabbitMqOption);
     }
 
     /**
      * @param string $queueName
+     * @param array|null $options
      *
-     * @return void
+     * @return bool
      */
-    public function deleteQueue($queueName)
+    public function deleteQueue($queueName, array $options = null)
     {
         $this->channel->queue_delete($queueName);
     }
 
     /**
      * @param string $queueName
+     * @param array|null $options
      *
-     * @return void
+     * @return bool
      */
-    public function purgeQueue($queueName)
+    public function purgeQueue($queueName, array $options = null)
     {
         $this->channel->queue_purge($queueName);
     }

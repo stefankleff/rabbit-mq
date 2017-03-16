@@ -9,7 +9,7 @@ namespace Spryker\Client\RabbitMq;
 
 use Generated\Shared\Transfer\QueueConnectionTransfer;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use Spryker\Client\RabbitMq\Model\Adapter;
+use Spryker\Client\RabbitMq\Model\RabbitMqAdapter;
 use Spryker\Client\RabbitMq\Model\Connection\Connection;
 use Spryker\Client\RabbitMq\Model\Connection\ConnectionInterface;
 use Spryker\Client\RabbitMq\Model\Consumer\Consumer;
@@ -32,7 +32,7 @@ class RabbitMqFactory extends AbstractFactory
      */
     public function createQueueAdapter()
     {
-        return new Adapter(
+        return new RabbitMqAdapter(
             $this->createManager(),
             $this->createPublisher(),
             $this->createConsumer()

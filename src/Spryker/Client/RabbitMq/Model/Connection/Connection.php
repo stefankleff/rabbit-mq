@@ -2,7 +2,7 @@
 
 namespace Spryker\Client\RabbitMq\Model\Connection;
 
-use Generated\Shared\Transfer\QueueOptionTransfer;
+use Generated\Shared\Transfer\RabbitMqOptionTransfer;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface;
 
@@ -12,7 +12,7 @@ class Connection implements ConnectionInterface
     const RABBIT_MQ_EXCHANGE = 'exchange';
 
     /**
-     * @var \Generated\Shared\Transfer\QueueOptionTransfer[]
+     * @var \Generated\Shared\Transfer\RabbitMqOptionTransfer[]
      */
     protected $queueOptionCollection;
 
@@ -89,11 +89,11 @@ class Connection implements ConnectionInterface
 
     /**
      * @param string $exchangeQueueName
-     * @param \Generated\Shared\Transfer\QueueOptionTransfer $queueOption
+     * @param \Generated\Shared\Transfer\RabbitMqOptionTransfer $queueOption
      *
      * @return void
      */
-    protected function createQueueAndBind(QueueOptionTransfer $queueOption, $exchangeQueueName)
+    protected function createQueueAndBind(RabbitMqOptionTransfer $queueOption, $exchangeQueueName)
     {
         $this->queueEstablishmentHelper->createQueue($this->channel, $queueOption);
 

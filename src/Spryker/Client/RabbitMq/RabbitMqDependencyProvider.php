@@ -3,7 +3,7 @@
 namespace Spryker\Client\RabbitMq;
 
 use Generated\Shared\Transfer\QueueConnectionTransfer;
-use Generated\Shared\Transfer\QueueOptionTransfer;
+use Generated\Shared\Transfer\RabbitMqOptionTransfer;
 use Spryker\Client\Kernel\AbstractDependencyProvider;
 use Spryker\Shared\RabbitMq\RabbitMqConstants;
 use Spryker\Client\Kernel\Container;
@@ -53,7 +53,7 @@ class RabbitMqDependencyProvider extends AbstractDependencyProvider
     protected function getQueueOptions()
     {
         $queueOptionCollection = new \ArrayObject();
-        $queueOptionCollection->append(new QueueOptionTransfer());
+        $queueOptionCollection->append(new RabbitMqOptionTransfer());
 
         return $queueOptionCollection;
     }
@@ -74,11 +74,11 @@ class RabbitMqDependencyProvider extends AbstractDependencyProvider
     protected function getQueueConnectionConfig()
     {
         return [
-          'host' => $this->getConfig(RabbitMqConstants::QUEUE_HOST),
-          'port' => $this->getConfig(RabbitMqConstants::QUEUE_PORT),
-          'username' => $this->getConfig(RabbitMqConstants::QUEUE_USERNAME),
-          'password' => $this->getConfig(RabbitMqConstants::QUEUE_PASSWORD),
-          'virtualHost' => $this->getConfig(RabbitMqConstants::QUEUE_VIRTUAL_HOST),
+          'host' => $this->getConfig(RabbitMqConstants::RABBITMQ_HOST),
+          'port' => $this->getConfig(RabbitMqConstants::RABBITMQ_PORT),
+          'username' => $this->getConfig(RabbitMqConstants::RABBITMQ_USERNAME),
+          'password' => $this->getConfig(RabbitMqConstants::RABBITMQ_PASSWORD),
+          'virtualHost' => $this->getConfig(RabbitMqConstants::RABBITMQ_VIRTUAL_HOST),
         ];
     }
 

@@ -6,17 +6,8 @@
 
 namespace Spryker\Client\RabbitMq\Model\Manager;
 
-use Generated\Shared\Transfer\QueueOptionTransfer;
 use Spryker\Client\Queue\Model\Internal\ManagerInterface as SprykerManagerInterface;
 
 interface ManagerInterface extends SprykerManagerInterface
 {
-
-    /**
-     * @param \Generated\Shared\Transfer\QueueOptionTransfer $queueOptionTransfer
-     *
-     * @return QueueOptionTransfer
-     */
-    public function createExchange(QueueOptionTransfer $queueOptionTransfer);
-
 }
