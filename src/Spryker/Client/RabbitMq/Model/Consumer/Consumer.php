@@ -49,7 +49,8 @@ class Consumer implements ConsumerInterface
     public function receiveMessages($queueName, $chunkSize = 100, array $options = null)
     {
         /** @var RabbitMqConsumerOptionTransfer $rabbitMqOption */
-        $rabbitMqOption = $options['rabbitMqConsumerOption'];
+        $rabbitMqOption = $options['rabbitmq'];
+
         $this->channel->basic_qos(null, $chunkSize, null);
         $this->channel->basic_consume(
             $queueName,
@@ -82,7 +83,7 @@ class Consumer implements ConsumerInterface
     public function receiveMessage($queueName, array $options = null)
     {
         /** @var RabbitMqConsumerOptionTransfer $rabbitMqOption */
-        $rabbitMqOption = $options['rabbitMqConsumerOption'];
+        $rabbitMqOption = $options['rabbitmq'];
 
         $message = $this->channel->basic_get($queueName, $rabbitMqOption->getNoAck());
 

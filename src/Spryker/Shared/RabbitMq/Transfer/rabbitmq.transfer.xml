@@ -10,7 +10,7 @@
         <property name="username" type="string" />
         <property name="password" type="string" />
         <property name="virtualHost" type="string"/>
-        <property name="queueOptionCollection" singular="queueOptionItem" type="QueueOption[]"/>
+        <property name="queueOptionCollection" singular="queueOptionItem" type="RabbitMqOption[]"/>
     </transfer>
 
     <transfer name="RabbitMqOption">
