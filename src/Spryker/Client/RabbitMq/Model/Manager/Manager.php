@@ -35,11 +35,11 @@ class Manager implements ManagerInterface
 
     /**
      * @param string $queueName
-     * @param array|null $options
+     * @param array $options
      *
      * @return array
      */
-    public function createQueue($queueName, array $options = null)
+    public function createQueue($queueName, array $options = [])
     {
         /** @var RabbitMqOptionTransfer $rabbitMqOption */
         $rabbitMqOption = $options['rabbitMqConsumerOption'];
@@ -49,22 +49,22 @@ class Manager implements ManagerInterface
 
     /**
      * @param string $queueName
-     * @param array|null $options
+     * @param array $options
      *
      * @return bool
      */
-    public function deleteQueue($queueName, array $options = null)
+    public function deleteQueue($queueName, array $options = [])
     {
         $this->channel->queue_delete($queueName);
     }
 
     /**
      * @param string $queueName
-     * @param array|null $options
+     * @param array $options
      *
      * @return bool
      */
-    public function purgeQueue($queueName, array $options = null)
+    public function purgeQueue($queueName, array $options = [])
     {
         $this->channel->queue_purge($queueName);
     }

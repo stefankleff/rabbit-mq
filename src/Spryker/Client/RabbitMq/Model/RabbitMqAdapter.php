@@ -44,33 +44,33 @@ class RabbitMqAdapter implements AdapterInterface
 
     /**
      * @param string $queueName
-     * @param array|null $options
+     * @param array $options
      *
      * @return array
      */
-    public function createQueue($queueName, array $options = null)
+    public function createQueue($queueName, array $options = [])
     {
         return $this->manager->createQueue($queueName, $options);
     }
 
     /**
      * @param string $queueName
-     * @param array|null $options
+     * @param array $options
      *
      * @return bool
      */
-    public function purgeQueue($queueName, array $options = null)
+    public function purgeQueue($queueName, array $options = [])
     {
         return $this->manager->purgeQueue($queueName, $options);
     }
 
     /**
      * @param string $queueName
-     * @param array|null $options
+     * @param array $options
      *
      * @return bool
      */
-    public function deleteQueue($queueName, array $options = null)
+    public function deleteQueue($queueName, array $options = [])
     {
         return $this->manager->deleteQueue($queueName, $options);
     }
@@ -78,22 +78,22 @@ class RabbitMqAdapter implements AdapterInterface
     /**
      * @param string $queueName
      * @param int $chunkSize
-     * @param array|null $options
+     * @param array $options
      *
      * @return QueueReceiveMessageTransfer[]
      */
-    public function receiveMessages($queueName, $chunkSize = 100, array $options = null)
+    public function receiveMessages($queueName, $chunkSize = 100, array $options = [])
     {
         return $this->consumer->receiveMessages($queueName, $chunkSize, $options);
     }
 
     /**
      * @param string $queueName
-     * @param array|null $options
+     * @param array $options
      *
      * @return QueueReceiveMessageTransfer
      */
-    public function receiveMessage($queueName, array $options = null)
+    public function receiveMessage($queueName, array $options = [])
     {
         return $this->consumer->receiveMessage($queueName, $options);
     }

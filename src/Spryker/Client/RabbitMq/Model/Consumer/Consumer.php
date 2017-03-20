@@ -42,11 +42,11 @@ class Consumer implements ConsumerInterface
     /**
      * @param string $queueName
      * @param int $chunkSize
-     * @param array|null $options
+     * @param array $options
      *
      * @return QueueReceiveMessageTransfer[]
      */
-    public function receiveMessages($queueName, $chunkSize = 100, array $options = null)
+    public function receiveMessages($queueName, $chunkSize = 100, array $options = [])
     {
         /** @var RabbitMqConsumerOptionTransfer $rabbitMqOption */
         $rabbitMqOption = $options['rabbitmq'];
@@ -76,11 +76,11 @@ class Consumer implements ConsumerInterface
 
     /**
      * @param string $queueName
-     * @param array|null $options
+     * @param array $options
      *
      * @return QueueReceiveMessageTransfer
      */
-    public function receiveMessage($queueName, array $options = null)
+    public function receiveMessage($queueName, array $options = [])
     {
         /** @var RabbitMqConsumerOptionTransfer $rabbitMqOption */
         $rabbitMqOption = $options['rabbitmq'];
