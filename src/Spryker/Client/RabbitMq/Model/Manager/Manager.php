@@ -1,12 +1,12 @@
 <?php
+
 /**
- * Copyright © 2017-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace Spryker\Client\RabbitMq\Model\Manager;
 
-use Generated\Shared\Transfer\RabbitMqOptionTransfer;
 use PhpAmqpLib\Channel\AMQPChannel;
 use Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface;
 
@@ -14,18 +14,18 @@ class Manager implements ManagerInterface
 {
 
     /**
-     * @var AMQPChannel
+     * @var \PhpAmqpLib\Channel\AMQPChannel
      */
     protected $channel;
 
     /**
-     * @var QueueEstablishmentHelperInterface
+     * @var \Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface
      */
     protected $queueEstablishmentHelper;
 
     /**
-     * @param AMQPChannel $channel
-     * @param QueueEstablishmentHelperInterface $queueEstablishmentHelper
+     * @param \PhpAmqpLib\Channel\AMQPChannel $channel
+     * @param \Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface $queueEstablishmentHelper
      */
     public function __construct(AMQPChannel $channel, QueueEstablishmentHelperInterface $queueEstablishmentHelper)
     {
@@ -41,7 +41,7 @@ class Manager implements ManagerInterface
      */
     public function createQueue($queueName, array $options = [])
     {
-        /** @var RabbitMqOptionTransfer $rabbitMqOption */
+        /** @var \Generated\Shared\Transfer\RabbitMqOptionTransfer $rabbitMqOption */
         $rabbitMqOption = $options['rabbitMqConsumerOption'];
 
         $this->queueEstablishmentHelper->createQueue($this->channel, $rabbitMqOption);
@@ -68,4 +68,5 @@ class Manager implements ManagerInterface
     {
         $this->channel->queue_purge($queueName);
     }
+
 }

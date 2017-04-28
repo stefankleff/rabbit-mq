@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace Spryker\Client\RabbitMq\Model\Publisher;
 
 use Generated\Shared\Transfer\QueueSendMessageTransfer;
@@ -17,7 +22,7 @@ class Publisher implements PublisherInterface
     /**
      * Publisher constructor.
      *
-     * @param AMQPChannel $channel
+     * @param \PhpAmqpLib\Channel\AMQPChannel $channel
      */
     public function __construct(AMQPChannel $channel)
     {
@@ -26,7 +31,7 @@ class Publisher implements PublisherInterface
 
     /**
      * @param string $queueName
-     * @param QueueSendMessageTransfer $queueSendMessageTransfer
+     * @param \Generated\Shared\Transfer\QueueSendMessageTransfer $queueSendMessageTransfer
      *
      * @return void
      */
@@ -54,7 +59,7 @@ class Publisher implements PublisherInterface
     }
 
     /**
-     * @param AMQPMessage $message
+     * @param \PhpAmqpLib\Message\AMQPMessage $message
      * @param string $exchangeQueue
      * @param string $routingKey
      *
@@ -82,4 +87,5 @@ class Publisher implements PublisherInterface
     {
         return [];
     }
+
 }

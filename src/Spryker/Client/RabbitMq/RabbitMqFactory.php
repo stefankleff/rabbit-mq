@@ -1,29 +1,26 @@
 <?php
 
 /**
- * Copyright © 2017-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
 namespace Spryker\Client\RabbitMq;
 
-use Generated\Shared\Transfer\QueueConnectionTransfer;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use Spryker\Client\RabbitMq\Model\RabbitMqAdapter;
+use Spryker\Client\Kernel\AbstractFactory;
 use Spryker\Client\RabbitMq\Model\Connection\Connection;
-use Spryker\Client\RabbitMq\Model\Connection\ConnectionInterface;
 use Spryker\Client\RabbitMq\Model\Consumer\Consumer;
 use Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelper;
-use Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface;
 use Spryker\Client\RabbitMq\Model\Manager\Manager;
 use Spryker\Client\RabbitMq\Model\Publisher\Publisher;
-use Spryker\Client\Kernel\AbstractFactory;
+use Spryker\Client\RabbitMq\Model\RabbitMqAdapter;
 
 class RabbitMqFactory extends AbstractFactory
 {
 
     /**
-     * @var ConnectionInterface
+     * @var \Spryker\Client\RabbitMq\Model\Connection\ConnectionInterface
      */
     protected static $connection;
 
@@ -51,8 +48,8 @@ class RabbitMqFactory extends AbstractFactory
         );
     }
 
-    /**.
-     * @return ConnectionInterface
+    /**
+     * @return \Spryker\Client\RabbitMq\Model\Connection\ConnectionInterface
      */
     public function createStaticConnection()
     {
@@ -64,7 +61,7 @@ class RabbitMqFactory extends AbstractFactory
     }
 
     /**
-     * @return Manager
+     * @return \Spryker\Client\RabbitMq\Model\Manager\Manager
      */
     protected function createManager()
     {
@@ -95,7 +92,7 @@ class RabbitMqFactory extends AbstractFactory
     }
 
     /**
-     * @return QueueEstablishmentHelperInterface
+     * @return \Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface
      */
     protected function createQueueEstablishmentHelper()
     {
@@ -103,7 +100,7 @@ class RabbitMqFactory extends AbstractFactory
     }
 
     /**
-     * @return QueueConnectionTransfer
+     * @return \Generated\Shared\Transfer\QueueConnectionTransfer
      */
     protected function getQueueConnectionConfig()
     {
@@ -111,7 +108,7 @@ class RabbitMqFactory extends AbstractFactory
     }
 
     /**
-     * @return AMQPStreamConnection
+     * @return \PhpAmqpLib\Connection\AMQPStreamConnection
      */
     protected function createAMQPStreamConnection()
     {
@@ -125,4 +122,5 @@ class RabbitMqFactory extends AbstractFactory
             $queueConnectionConfig->getVirtualHost()
         );
     }
+
 }

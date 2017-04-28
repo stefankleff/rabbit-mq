@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright © 2017-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -13,19 +14,19 @@ interface QueueEstablishmentHelperInterface
 {
 
     /**
-     * @param AMQPChannel $channel
-     * @param RabbitMqOptionTransfer $queueOptionTransfer
+     * @param \PhpAmqpLib\Channel\AMQPChannel $channel
+     * @param \Generated\Shared\Transfer\RabbitMqOptionTransfer $queueOptionTransfer
      *
-     * @return RabbitMqOptionTransfer
+     * @return \Generated\Shared\Transfer\RabbitMqOptionTransfer
      */
     public function createQueue(AMQPChannel $channel, RabbitMqOptionTransfer $queueOptionTransfer);
 
-
     /**
-     * @param AMQPChannel $channel
-     * @param RabbitMqOptionTransfer $queueOptionTransfer
+     * @param \PhpAmqpLib\Channel\AMQPChannel $channel
+     * @param \Generated\Shared\Transfer\RabbitMqOptionTransfer $queueOptionTransfer
      *
-     * @return RabbitMqOptionTransfer
+     * @return \Generated\Shared\Transfer\RabbitMqOptionTransfer
      */
     public function createExchange(AMQPChannel $channel, RabbitMqOptionTransfer $queueOptionTransfer);
+
 }

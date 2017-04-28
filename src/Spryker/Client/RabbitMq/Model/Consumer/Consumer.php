@@ -1,10 +1,14 @@
 <?php
 
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace Spryker\Client\RabbitMq\Model\Consumer;
 
 use Generated\Shared\Transfer\QueueReceiveMessageTransfer;
 use Generated\Shared\Transfer\QueueSendMessageTransfer;
-use Generated\Shared\Transfer\RabbitMqConsumerOptionTransfer;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -32,7 +36,7 @@ class Consumer implements ConsumerInterface
     protected $collectedMessages = [];
 
     /**
-     * @param AMQPChannel $channel
+     * @param \PhpAmqpLib\Channel\AMQPChannel $channel
      */
     public function __construct(AMQPChannel $channel)
     {
@@ -44,11 +48,11 @@ class Consumer implements ConsumerInterface
      * @param int $chunkSize
      * @param array $options
      *
-     * @return QueueReceiveMessageTransfer[]
+     * @return \Generated\Shared\Transfer\QueueReceiveMessageTransfer[]
      */
     public function receiveMessages($queueName, $chunkSize = 100, array $options = [])
     {
-        /** @var RabbitMqConsumerOptionTransfer $rabbitMqOption */
+        /** @var \Generated\Shared\Transfer\RabbitMqConsumerOptionTransfer $rabbitMqOption */
         $rabbitMqOption = $options['rabbitmq'];
 
         $this->channel->basic_qos(null, $chunkSize, null);
@@ -78,11 +82,11 @@ class Consumer implements ConsumerInterface
      * @param string $queueName
      * @param array $options
      *
-     * @return QueueReceiveMessageTransfer
+     * @return \Generated\Shared\Transfer\QueueReceiveMessageTransfer
      */
     public function receiveMessage($queueName, array $options = [])
     {
-        /** @var RabbitMqConsumerOptionTransfer $rabbitMqOption */
+        /** @var \Generated\Shared\Transfer\RabbitMqConsumerOptionTransfer $rabbitMqOption */
         $rabbitMqOption = $options['rabbitmq'];
 
         $message = $this->channel->basic_get($queueName, $rabbitMqOption->getNoAck());
@@ -99,13 +103,12 @@ class Consumer implements ConsumerInterface
     }
 
     /**
-     * @param AMQPMessage $message
+     * @param \PhpAmqpLib\Message\AMQPMessage $message
      *
      * @return void
      */
     public function collectQueueMessages(AMQPMessage $message)
     {
-
         $queueSendMessageTransfer = new QueueSendMessageTransfer();
         $queueSendMessageTransfer->setBody($message->getBody());
 
@@ -119,7 +122,7 @@ class Consumer implements ConsumerInterface
     }
 
     /**
-     * @param QueueReceiveMessageTransfer $queueReceiveMessageTransfer
+     * @param \Generated\Shared\Transfer\QueueReceiveMessageTransfer $queueReceiveMessageTransfer
      *
      * @return bool
      */
@@ -129,7 +132,7 @@ class Consumer implements ConsumerInterface
     }
 
     /**
-     * @param QueueReceiveMessageTransfer $queueReceiveMessageTransfer
+     * @param \Generated\Shared\Transfer\QueueReceiveMessageTransfer $queueReceiveMessageTransfer
      *
      * @return bool
      */
@@ -139,7 +142,7 @@ class Consumer implements ConsumerInterface
     }
 
     /**
-     * @param QueueReceiveMessageTransfer $queueReceiveMessageTransfer
+     * @param \Generated\Shared\Transfer\QueueReceiveMessageTransfer $queueReceiveMessageTransfer
      *
      * @return bool
      */
@@ -150,4 +153,5 @@ class Consumer implements ConsumerInterface
 
         return true;
     }
+
 }

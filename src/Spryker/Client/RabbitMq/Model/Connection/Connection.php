@@ -1,7 +1,13 @@
 <?php
 
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace Spryker\Client\RabbitMq\Model\Connection;
 
+use ArrayObject;
 use Generated\Shared\Transfer\RabbitMqOptionTransfer;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface;
@@ -27,21 +33,21 @@ class Connection implements ConnectionInterface
     protected $channel;
 
     /**
-     * @var QueueEstablishmentHelperInterface
+     * @var \Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface
      */
     protected $queueEstablishmentHelper;
 
     /**
-     * @param AMQPStreamConnection $streamConnection
-     * @param QueueEstablishmentHelperInterface $queueEstablishmentHelper
+     * @param \PhpAmqpLib\Connection\AMQPStreamConnection $streamConnection
+     * @param \Spryker\Client\RabbitMq\Model\Helper\QueueEstablishmentHelperInterface $queueEstablishmentHelper
      * @param \ArrayObject $queueOptionCollection
      */
     public function __construct(
         AMQPStreamConnection $streamConnection,
         QueueEstablishmentHelperInterface $queueEstablishmentHelper,
-        \ArrayObject $queueOptionCollection
-    )
-    {
+        ArrayObject $queueOptionCollection
+    ) {
+
         $this->streamConnection = $streamConnection;
         $this->queueEstablishmentHelper = $queueEstablishmentHelper;
         $this->queueOptionCollection = $queueOptionCollection;
@@ -86,7 +92,6 @@ class Connection implements ConnectionInterface
         }
     }
 
-
     /**
      * @param string $exchangeQueueName
      * @param \Generated\Shared\Transfer\RabbitMqOptionTransfer $queueOption
@@ -129,4 +134,5 @@ class Connection implements ConnectionInterface
     {
         $this->close();
     }
+
 }
