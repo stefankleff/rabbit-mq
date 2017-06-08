@@ -69,7 +69,7 @@ class RabbitMqDependencyProvider extends AbstractDependencyProvider
      *
      * @return string
      */
-    public function getConfig($key)
+    public function getConfigByKey($key)
     {
         return Config::get($key);
     }
@@ -80,11 +80,11 @@ class RabbitMqDependencyProvider extends AbstractDependencyProvider
     protected function getQueueConnectionConfig()
     {
         return [
-          'host' => $this->getConfig(RabbitMqConstants::RABBITMQ_HOST),
-          'port' => $this->getConfig(RabbitMqConstants::RABBITMQ_PORT),
-          'username' => $this->getConfig(RabbitMqConstants::RABBITMQ_USERNAME),
-          'password' => $this->getConfig(RabbitMqConstants::RABBITMQ_PASSWORD),
-          'virtualHost' => $this->getConfig(RabbitMqConstants::RABBITMQ_VIRTUAL_HOST),
+          'host' => $this->getConfigByKey(RabbitMqConstants::RABBITMQ_HOST),
+          'port' => $this->getConfigByKey(RabbitMqConstants::RABBITMQ_PORT),
+          'username' => $this->getConfigByKey(RabbitMqConstants::RABBITMQ_USERNAME),
+          'password' => $this->getConfigByKey(RabbitMqConstants::RABBITMQ_PASSWORD),
+          'virtualHost' => $this->getConfigByKey(RabbitMqConstants::RABBITMQ_VIRTUAL_HOST),
         ];
     }
 
