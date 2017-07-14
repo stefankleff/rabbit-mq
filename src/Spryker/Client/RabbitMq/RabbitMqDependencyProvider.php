@@ -39,7 +39,7 @@ class RabbitMqDependencyProvider extends AbstractDependencyProvider
      */
     public function getQueueConnection()
     {
-        $queueConfig = $this->getQueueConnectionConfig();
+        $queueConfig = $this->getConfig()->getQueueConnectionConfig();
 
         $connectionTransfer = new QueueConnectionTransfer();
         $connectionTransfer->setHost($queueConfig['host']);
@@ -62,30 +62,6 @@ class RabbitMqDependencyProvider extends AbstractDependencyProvider
         $queueOptionCollection->append(new RabbitMqOptionTransfer());
 
         return $queueOptionCollection;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return string
-     */
-    public function getConfig($key)
-    {
-        return Config::get($key);
-    }
-
-    /**
-     * @return array
-     */
-    protected function getQueueConnectionConfig()
-    {
-        return [
-          'host' => $this->getConfig(RabbitMqConstants::RABBITMQ_HOST),
-          'port' => $this->getConfig(RabbitMqConstants::RABBITMQ_PORT),
-          'username' => $this->getConfig(RabbitMqConstants::RABBITMQ_USERNAME),
-          'password' => $this->getConfig(RabbitMqConstants::RABBITMQ_PASSWORD),
-          'virtualHost' => $this->getConfig(RabbitMqConstants::RABBITMQ_VIRTUAL_HOST),
-        ];
     }
 
 }
